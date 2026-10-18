@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YT Live – logowanie TikTok</title>
+<style>
+body{font:16px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;background:#14110e;color:#f3ebdd;margin:0;padding:48px 20px}
+.box{max-width:620px;margin:0 auto}
+h1{font-size:26px;margin:0 0 12px}
+p{color:#c9bca8}
+textarea{width:100%;box-sizing:border-box;height:120px;font:14px ui-monospace,Menlo,monospace;background:#1d1915;color:#f3ebdd;border:1px solid #3a322a;border-radius:10px;padding:12px}
+button{margin-top:12px;background:#ff8a3d;color:#14110e;border:0;border-radius:10px;padding:12px 20px;font-weight:700;font-size:15px;cursor:pointer}
+.err{color:#ff6b6b}
+</style></head>
+<body><div class="box">
+<h1 id="h">Zalogowano do TikToka ✓</h1>
+<p id="msg">Skopiuj poniższy adres i wklej go do Terminala, który o niego prosi.</p>
+<textarea id="code" readonly></textarea>
+<button id="copy">Kopiuj</button>
+<p style="margin-top:28px;font-size:13px">Ta strona niczego nie zapisuje ani nie wysyła – tylko pokazuje kod, który TikTok przekazał w adresie.</p>
+</div>
+<script>
+const q=new URLSearchParams(location.search);
+const t=document.getElementById('code');
+if(q.get('error')){document.getElementById('h').textContent='Logowanie nieudane';
+ document.getElementById('msg').innerHTML='<span class="err">'+(q.get('error_description')||q.get('error'))+'</span>';}
+else if(q.get('code')){t.value=location.href;}
+else{document.getElementById('h').textContent='Strona zwrotna YT Live';
+ document.getElementById('msg').textContent='Tu trafisz po zalogowaniu do TikToka. Uruchom w Terminalu komendę --tiktok-setup.';}
+document.getElementById('copy').onclick=()=>{t.select();navigator.clipboard.writeText(t.value).then(()=>{document.getElementById('copy').textContent='Skopiowano ✓'}).catch(()=>{document.execCommand('copy')})};
+</script></body></html>
